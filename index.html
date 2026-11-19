@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Waajjira Bishaanii - Sirna Komii Maamiltootaa</title>
+  <title>Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap');
@@ -34,7 +34,7 @@
       <div class="flex items-center gap-2.5 select-none">
         <span id="secretLogo" onclick="handleSecretTap()" class="text-2xl cursor-pointer">💧</span>
         <div>
-          <h1 id="txtTitle" class="text-lg font-bold leading-tight">Waajjira Bishaanii</h1>
+          <h1 id="txtTitle" class="text-lg font-bold leading-tight">Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa</h1>
           <p id="txtSubtitle" class="text-xs text-blue-200">Sirna Komii Maamiltootaa</p>
         </div>
       </div>
@@ -192,8 +192,8 @@
 
       <div id="printableReportArea" class="flex-1 overflow-y-auto bg-white p-0">
         <div style="background-color: #1d4ed8; color: #ffffff; padding: 20px 24px;">
-          <h1 id="repHeaderTitle" style="margin: 0 0 4px 0; font-size: 20px; font-weight: 700;">WAAJJIRA BISHAANII FI INARJII</h1>
-          <p id="repHeaderSub" style="margin: 0; font-size: 12px; color: #dbeafe;">Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water Office Complaint Report)</p>
+          <h1 id="repHeaderTitle" style="margin: 0 0 4px 0; font-size: 20px; font-weight: 700;">Waajjira bishaanii fi Inarjii / Tajaajila Bishaan Dhugaatii fi Dhangala'aa</h1>
+          <p id="repHeaderSub" style="margin: 0; font-size: 12px; color: #dbeafe;">Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water office/ water supply and sewerage service)</p>
         </div>
 
         <div style="padding: 18px 24px;">
@@ -244,7 +244,7 @@
           </div>
 
           <div style="margin-top: 22px; font-size: 11px; color: #334155;">
-            <p id="repFooterNote" style="margin: 0 0 20px 0;"><strong>Hubachiisa:</strong> Gabaasni kun sirna komii maamiltootaa Waajjira Bishaanii irraa qophaa'e.</p>
+            <p id="repFooterNote" style="margin: 0 0 20px 0;"><strong>Hubachiisa:</strong> Gabaasni kun sirna komii maamiltootaa Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa irraa qophaa'e.</p>
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="width: 50%; vertical-align: top;">
@@ -278,7 +278,7 @@
   <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4 no-print">
     <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 id="loginModalTitle" class="text-lg font-bold text-slate-800">Seensa Bulchiinsa Waajjira Bishaanii</h3>
+        <h3 id="loginModalTitle" class="text-lg font-bold text-slate-800">Seensa Bulchiinsa Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa</h3>
         <button onclick="closeAdminLogin()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
       </div>
       <form id="loginForm" class="space-y-3">
@@ -325,14 +325,14 @@
 
     const I18N = {
       om: {
-        title: "Waajjira Bishaanii", subtitle: "Sirna Komii Maamiltootaa",
+        title: "Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa", subtitle: "Sirna Komii Maamiltootaa",
         logoutBtn: "Bahuu (Logout)",
         formHeading: "Komii Haaraa Dhiyeessi", formSub: "Unka armaan gadii guutuun komii keessan ergaa.",
         lblName: "Maqaa Guutuu *", lblPhone: "Lakkoofsa Bilbilaa *", lblMeter: "Lakkoofsa Meter", lblLocation: "Ganda / Naannoo *",
         lblType: "Gosa Komii Filadhu *", selectPlaceholder: "-- Gosa komii keessanii filadhaa --", lblDetails: "Ibsa Dabalataa",
         lblImage: "Suuraa Ragaa (Tuuboo dho'e ykn Meter - Yoo jiraate)",
-        btnSubmit: "Komii Ergi", btnSending: "Ergamaa jira...", listHeading: "Komiiwwan Ergamaniif Deebii Waajjiraa",
-        emptyList: "Hanga ammaatti komiin galmaa'e hin jiru.", replyLabel: "Deebii Waajjira Bishaanii:", changeStatus: "Sadarkaa Jijjiiri:",
+        btnSubmit: "Komii Ergi", btnSending: "Ergamaa jira...", listHeading: "Komiiwwan Ergamaniif Deebii Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa",
+        emptyList: "Hanga ammaatti komiin galmaa'e hin jiru.", replyLabel: "Deebii Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa:", changeStatus: "Sadarkaa Jijjiiri:",
         deleteBtn: "Haqi", confirmDelete: "Komii kana haquu barbaadduu?", rejectPrompt: "Sababa komiin kun hin fudhatamneef barreessi:",
         submittedAlert: "Galatoomaa! Komiin keessan lakkoofsa {id} tiin galmaa'eera.", notRecorded: "Hin galmoofne",
         adminHeading: "Kutaa Bulchiinsaa (Admin Dashboard)",
@@ -369,20 +369,27 @@
         btnCopyRep: "📋 Copy Gabaasa",
         btnPrint: "🖨️ Save as PDF / Print",
         btnClose: "✕ Cufuu",
-        repHeaderTitle: "WAAJJIRA BISHAANII FI INARJII",
-        repHeaderSub: "Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water Office Complaint Report)",
+        repHeaderTitle: "Waajjira bishaanii fi Inarjii / Tajaajila Bishaan Dhugaatii fi Dhangala'aa",
+        repHeaderSub: "Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water office/ water supply and sewerage service)",
         repSectionTitle: "Tarreeffama Komiiwwan Dhiyaatanii (Submitted Complaints)",
         statTotal: "Walii Gala (Total)", statResolved: "Kan Furame (Resolved)", statProgress: "Hojii Irra / Ogeessa", statReview: "Ilaalamaa Jira (Review)",
         th: ["No", "Ticket ID", "Maqaa Maamilaa", "Naannoo", "Gosa Komii", "Ogeessa & Kallattii", "Sadarkaa"],
-        repFooterNote: "Hubachiisa: Gabaasni kun sirna komii maamiltootaa Waajjira Bishaanii irraa qophaa'e.",
+        repFooterNote: "Hubachiisa: Gabaasni kun sirna komii maamiltootaa Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa irraa qophaa'e.",
         repPrepBy: "Kan Qopheesse (Prepared By):", repAppBy: "Kan Mirkaneesse (Approved By):",
         repName: "Maqaa: ___________________________", repSign: "Mallattoo: ________________________",
-        loginTitle: "Seensa Bulchiinsa Waajjira Bishaanii", loginEmail: "Email Bulchiinsaa", loginPass: "Password", loginBtn: "Seeni (Login)",
+        loginTitle: "Seensa Bulchiinsa Waajjira bishaanii/ Tajaajila Bishaan Dhugaatii fi Dhangala'aa", loginEmail: "Email Bulchiinsaa", loginPass: "Password", loginBtn: "Seeni (Login)",
         types: [
-          "Bishaan naannoo keenya hin dhufu.", "Dhiibbaan bishaanii gadi bu'e.", "Tuuboon bishaanii dho'e.",
-          "Meter bishaanii sirnaan hin hojjetu.", "Kaffaltiin bishaanii ol ka'e.", "Dubbisni Meter dogoggora qaba.",
-          "Bishaan qulqullina hin qabu.", "Kaffaltiin koo sirnaan hin galmoofne.", "Meter jijjiiruu barbaada.",
-          "Tajaajila bishaanii dhaabuu ykn deebisanii banuu barbaada.", "Sararri bishaanii mana koo hin geenye.", "Komii biraa."
+          "Bishaan naannoo keenya hin dhufu",
+          "Dhiibbaan bishaanii gadi bu'e",
+          "Tuuboon / ujummoon bishaanii dho'e",
+          "Meter / lakkooftuu bishaanii sirnaan hin hojjetu",
+          "Kanfaltiin bishaanii ol ka'e",
+          "Dubbisni Meter/ lakkooftuu koo dogoggora qaba",
+          "Bishaan qulqullina hin qabu",
+          "Kanfaltiin koo sirnaan hin galmoofne/ dubbisni lakkooftuu koo dogongora qaba",
+          "Meter / lakkooftuu jijjiiruun barbaadaa",
+          "Tajaajila bishaanii dhaabuu ykn deebise banuu barbaada qaamaan dhufuu barbaachisa",
+          "Kan biraa"
         ],
         statuses: {
           "Received": "Komiin keessan nu qaqqabeera.", "Under Review": "Komiin keessan ilaalamaa jira.",
@@ -393,7 +400,7 @@
         }
       },
       am: {
-        title: "የውሃ አገልግሎት ጽ/ቤት", subtitle: "የደንበኞች ቅሬታ ማቅረቢያ ሥርዓት",
+        title: "የውሃ አገልግሎት ጽ/ቤት / የመጠጥ ውሃና ፍሳሽ አገልግሎት", subtitle: "የደንበኞች ቅሬታ ማቅረቢያ ሥርዓት",
         logoutBtn: "ውጣ (Logout)",
         formHeading: "አዲስ ቅሬታ ያቅርቡ", formSub: "ከታች ያለውን ቅጽ በመሙላት ቅሬታዎን ይላኩ።",
         lblName: "ሙሉ ስም *", lblPhone: "ስልክ ቁጥር *", lblMeter: "የቆጣሪ ቁጥር", lblLocation: "ቀበሌ / አካባቢ *",
@@ -437,8 +444,8 @@
         btnCopyRep: "📋 ሪፖርቱን ኮፒ አድርግ",
         btnPrint: "🖨️ PDF አድርግ / Print",
         btnClose: "✕ ዝጋ",
-        repHeaderTitle: "የውሃና ኢነርጂ ጽ/ቤት",
-        repHeaderSub: "የደንበኞች ቅሬታ እና የመፍትሄ ደረጃ ሪፖርት (Water Office Complaint Report)",
+        repHeaderTitle: "የውሃና ኢነርጂ ጽ/ቤት / የመጠጥ ውሃና ፍሳሽ አገልግሎት",
+        repHeaderSub: "የደንበኞች ቅሬታ እና የመፍትሄ ደረጃ ሪፖርት (Water office/ water supply and sewerage service)",
         repSectionTitle: "የቀረቡ ቅሬታዎች ዝርዝር (Submitted Complaints)",
         statTotal: "ጠቅላላ (Total)", statResolved: "የተፈታ (Resolved)", statProgress: "በመሰራት ላይ / ባለሙያ", statReview: "እየታየ ያለ (Review)",
         th: ["ተ.ቁ", "ቲክኬት ID", "የደንበኛ ስም", "አካባቢ", "የቅሬታ ዓይነት", "ባለሙያና መመሪያ", "ሁኔታ"],
@@ -447,9 +454,17 @@
         repName: "ስም: ___________________________", repSign: "ፊርማ: ________________________",
         loginTitle: "የውሃ ጽ/ቤት አስተዳደር መግቢያ", loginEmail: "የአስተዳደር ኢሜል", loginPass: "የይለፍ ቃል", loginBtn: "ግባ (Login)",
         types: [
-          "በአካባቢያችን ውሃ አይመጣም።", "የውሃ ግፊት ቀንሷል።", "የውሃ ቱቦ ፈንድቷል።", "የውሃ ቆጣሪ በትክክል አይሰራም።",
-          "የውሃ ክፍያ በጣም ጨምሯል።", "የቆጣሪ ንባብ ስህተት አለበት።", "ውሃው ንጽህና የለውም።", "ክፍያዬ በትክክል አልተመዘገበም።",
-          "ቆጣሪ መቀየር እፈልጋለሁ።", "የውሃ አገልግሎት ማቋረጥ ወይም እንደገና ማስከፈት እፈልጋለሁ።", "የውሃ መስመር ወደ ቤቴ አልደረሰም።", "ሌላ ቅሬታ።"
+          "በአካባቢያችን ውሃ አይመጣም",
+          "የውሃ ግፊት ቀንሷል",
+          "የውሃ ቱቦ / መስመር ፈንድቷል",
+          "የውሃ ቆጣሪ በትክክል አይሰራም",
+          "የውሃ ክፍያ ጨምሯል",
+          "የውሃ ቆጣሪ ንባቤ ስህተት አለበት",
+          "ውሃው ንጽህና የለውም",
+          "ክፍያዬ በትክክል አልተመዘገበም / የቆጣሪ ንባቤ ስህተት አለበት",
+          "ቆጣሪ መቀየር እፈልጋለሁ",
+          "የውሃ አገልግሎት ማቋረጥ ወይም እንደገና ማስከፈት እፈልጋለሁ (በአካል መቅረብ ያስፈልጋል)",
+          "ሌላ"
         ],
         statuses: {
           "Received": "ቅሬታዎ ደርሶናል።", "Under Review": "ቅሬታዎ እየታየ ነው።",
@@ -460,14 +475,14 @@
         }
       },
       en: {
-        title: "Water Supply Office", subtitle: "Customer Complaint System",
+        title: "Water office/ water supply and sewerage service", subtitle: "Customer Complaint System",
         logoutBtn: "Logout",
         formHeading: "Submit a New Complaint", formSub: "Fill out the form below to send your complaint.",
         lblName: "Full Name *", lblPhone: "Phone Number *", lblMeter: "Meter No.", lblLocation: "Kebele / Area *",
         lblType: "Select Complaint Type *", selectPlaceholder: "-- Select your complaint type --", lblDetails: "Additional Details",
         lblImage: "Evidence Image (Burst pipe or Meter - Optional)",
         btnSubmit: "Submit Complaint", btnSending: "Submitting...", listHeading: "Submitted Complaints & Office Responses",
-        emptyList: "No complaints recorded yet.", replyLabel: "Water Office Response:", changeStatus: "Update Status:",
+        emptyList: "No complaints recorded yet.", replyLabel: "Water office/ water supply and sewerage service Response:", changeStatus: "Update Status:",
         deleteBtn: "Delete", confirmDelete: "Delete this complaint?", rejectPrompt: "Enter rejection reason:",
         submittedAlert: "Thank you! Registered with ID {id}.", notRecorded: "Not provided",
         adminHeading: "Admin & Dispatch Dashboard",
@@ -504,20 +519,27 @@
         btnCopyRep: "📋 Copy Report",
         btnPrint: "🖨️ Save as PDF / Print",
         btnClose: "✕ Close",
-        repHeaderTitle: "WATER & ENERGY OFFICE",
-        repHeaderSub: "Customer Complaints & Resolution Status Report",
+        repHeaderTitle: "Waajjira bishaanii fi Inarjii / Tajaajila Bishaan Dhugaatii fi Dhangala'aa",
+        repHeaderSub: "Customer Complaints & Resolution Status Report (Water office/ water supply and sewerage service)",
         repSectionTitle: "Submitted Complaints List",
         statTotal: "Total Complaints", statResolved: "Resolved", statProgress: "Active / Tech", statReview: "Under Review",
         th: ["No", "Ticket ID", "Customer Name", "Area", "Complaint Type", "Technician & Directive", "Status"],
-        repFooterNote: "Note: This report was generated from the Water Office Customer Complaint System.",
+        repFooterNote: "Note: This report was generated from the Water office/ water supply and sewerage service Customer Complaint System.",
         repPrepBy: "Prepared By:", repAppBy: "Approved By:",
         repName: "Name: ___________________________", repSign: "Signature: ________________________",
-        loginTitle: "Water Office Admin Login", loginEmail: "Admin Email", loginPass: "Password", loginBtn: "Login",
+        loginTitle: "Water office/ water supply and sewerage service Admin Login", loginEmail: "Admin Email", loginPass: "Password", loginBtn: "Login",
         types: [
-          "There is no water supply in our area.", "Water pressure has dropped.", "A water pipe has burst.",
-          "The water meter is not working properly.", "The water bill has increased excessively.", "The meter reading is incorrect.",
-          "The water is not clean.", "My payment was not properly recorded.", "I want to replace the water meter.",
-          "I want to disconnect or reconnect water service.", "The water pipeline has not reached my house.", "Other complaint."
+          "There is no water supply in our area",
+          "Water pressure has dropped",
+          "A water pipe / pipeline has burst",
+          "The water meter is not working properly",
+          "The water bill has increased",
+          "My water meter reading is incorrect",
+          "The water is not clean",
+          "My payment was not properly recorded / my meter reading is incorrect",
+          "I want to replace the water meter",
+          "I want to disconnect or reconnect water service (in-person visit required)",
+          "Other"
         ],
         statuses: {
           "Received": "Your complaint has been received.", "Under Review": "Your complaint is under review.",
@@ -553,12 +575,10 @@
     let tapCount = 0;
     let tapTimer = null;
 
-    // Determine active role from URL query params (?tech=true or ?admin=true)
     const urlParams = new URLSearchParams(window.location.search);
     const isTechMode = urlParams.get('tech') === 'true';
     const isAdminMode = urlParams.get('admin') === 'true';
 
-    // Strictly isolate views based on role
     function applyRoleVisibility() {
       const custSec = document.getElementById('customerSection');
       const admSec = document.getElementById('adminSection');
@@ -571,16 +591,13 @@
       btnLogoutAdm.classList.add('hidden');
 
       if (isTechMode) {
-        // Technician sees ONLY Technician view
         techSec.classList.remove('hidden');
         renderTechView();
       } else if (isAdminLoggedIn) {
-        // Logged-in Admin sees ONLY Admin view
         admSec.classList.remove('hidden');
         btnLogoutAdm.classList.remove('hidden');
         renderAdminList();
       } else {
-        // Customer sees ONLY Customer view
         custSec.classList.remove('hidden');
         renderCustomerList();
       }
@@ -593,7 +610,7 @@
     }
 
     window.handleSecretTap = function() {
-      if (isTechMode) return; // Technician URL does not trigger admin login
+      if (isTechMode) return;
       tapCount++;
       clearTimeout(tapTimer);
       tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
@@ -708,9 +725,6 @@
       }
     });
 
-    // =========================================================================
-    // ADMIN ASSIGN TO TECHNICIAN FUNCTION
-    // =========================================================================
     window.assignTechnician = async function(docId) {
       if (!isAdminLoggedIn) return;
       const t = I18N[currentLang];
@@ -735,9 +749,6 @@
       }
     };
 
-    // =========================================================================
-    // TECHNICIAN ACTION FUNCTIONS (RESOLVE / IN PROGRESS)
-    // =========================================================================
     window.techUpdateComplaint = async function(docId, newStatus) {
       const t = I18N[currentLang];
       const noteEl = document.getElementById(`techNote_${docId}`);
@@ -759,7 +770,6 @@
       const t = I18N[currentLang];
       const nameFilter = (document.getElementById('techNameFilter').value || "").toLowerCase().trim();
 
-      // Technician sees assigned active tasks (not yet Resolved) matching technician name filter if entered
       const techTasks = complaints.filter(c => {
         const hasTech = c.assignedTech && c.assignedTech.trim() !== "";
         const isActive = c.status !== 'Resolved';
@@ -834,9 +844,6 @@
       }).join('');
     };
 
-    // =========================================================================
-    // REPORT MODAL, PRINT & COPY FUNCTIONS
-    // =========================================================================
     window.openReportModal = function() {
       const filter = document.getElementById('filterStatus').value;
       const dataToExport = filter === 'ALL' ? complaints : complaints.filter(c => c.status === filter);
@@ -972,6 +979,7 @@
       const t = I18N[currentLang];
       document.getElementById('langSelect').value = currentLang;
       document.documentElement.lang = currentLang;
+      document.title = t.title;
       
       document.getElementById('txtTitle').textContent = t.title;
       document.getElementById('txtSubtitle').textContent = t.subtitle;
