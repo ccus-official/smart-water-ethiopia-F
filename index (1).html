@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waajjira Bishaanii - Sirna Komii Maamiltootaa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap');
+    body { font-family: 'Inter', 'Noto Sans Ethiopic', sans-serif; }
+    
+    @media print {
+      @page { size: A4; margin: 10mm; }
+      body * { visibility: hidden; }
+      #printableReportArea, #printableReportArea * { visibility: visible; }
+      #printableReportArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-blue-700 text-white shadow-md sticky top-0 z-10 no-print">
+    <div class="max-w-4xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center gap-3">
+      <div class="flex items-center gap-2.5 select-none">
+        <span id="secretLogo" onclick="handleSecretTap()" class="text-2xl cursor-pointer">💧</span>
+        <div>
+          <h1 id="txtTitle" class="text-lg font-bold leading-tight">Waajjira Bishaanii</h1>
+          <p id="txtSubtitle" class="text-xs text-blue-200">Sirna Komii Maamiltootaa</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <select id="langSelect" onchange="changeLanguage(this.value)"
+          class="bg-blue-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-blue-500 focus:outline-none">
+          <option value="om">Afaan Oromoo</option>
+          <option value="am">አማርኛ (Amharic)</option>
+          <option value="en">English</option>
+        </select>
+
+        <!-- Shown ONLY when Admin is logged in -->
+        <button type="button" id="btnLogoutAdmin" onclick="logoutAdmin()"
+          class="hidden bg-slate-900 hover:bg-slate-950 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow cursor-pointer">
+          Bahuu (Logout)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 no-print">
+
+    <!-- ================= 1. CUSTOMER ONLY VIEW ================= -->
+    <section id="customerSection" class="hidden space-y-8">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h2 id="txtFormHeading" class="text-xl font-bold text-slate-800 mb-1">Komii Haaraa Dhiyeessi</h2>
+        <p id="txtFormSub" class="text-sm text-slate-500 mb-5">Unka armaan gadii guutuun komii keessan ergaa.</p>
+
+        <form id="complaintForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label id="lblName" class="block text-sm font-medium text-slate-700 mb-1">Maqaa Guutuu *</label>
+              <input type="text" id="custName" required
+                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+            </div>
+            <div>
+              <label id="lblPhone" class="block text-sm font-medium text-slate-700 mb-1">Lakkoofsa Bilbilaa *</label>
+              <input type="tel" id="custPhone" required placeholder="09..."
+                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label id="lblMeter" class="block text-sm font-medium text-slate-700 mb-1">Lakkoofsa Meter</label>
+              <input type="text" id="meterNo"
+                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+            </div>
+            <div>
+              <label id="lblLocation" class="block text-sm font-medium text-slate-700 mb-1">Ganda / Naannoo *</label>
+              <input type="text" id="location" required
+                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label id="lblType" class="block text-sm font-medium text-slate-700 mb-1">Gosa Komii Filadhu *</label>
+            <select id="complaintType" required
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:border-blue-600 focus:outline-none">
+            </select>
+          </div>
+
+          <div>
+            <label id="lblDetails" class="block text-sm font-medium text-slate-700 mb-1">Ibsa Dabalataa</label>
+            <textarea id="details" rows="3"
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none"></textarea>
+          </div>
+
+          <div>
+            <label id="lblImage" class="block text-sm font-medium text-slate-700 mb-1">Suuraa Ragaa (Tuuboo dho'e ykn Meter - Yoo jiraate)</label>
+            <input type="file" id="complaintImage" accept="image/*"
+              class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-slate-300 rounded-lg p-1" />
+          </div>
+
+          <button id="btnSubmit" type="submit"
+            class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 disabled:bg-slate-400 text-white font-semibold px-6 py-2.5 rounded-lg shadow transition">
+            Komii Ergi
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <h3 id="txtListHeading" class="text-lg font-bold text-slate-800 mb-3">Komiiwwan Ergamaniif Deebii Waajjiraa</h3>
+        <div id="customerList" class="space-y-3">
+          <div class="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-400 text-sm">Loading...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. ADMIN ONLY VIEW ================= -->
+    <section id="adminSection" class="hidden space-y-5">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 id="txtAdminHeading" class="text-xl font-bold text-slate-800">Kutaa Bulchiinsaa (Admin Dashboard)</h2>
+            <p id="txtAdminSub" class="text-sm text-slate-500">Ogeessa bishaanii ramaduu, kallattii kennuu fi gabaasa PDF baafachuu.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="openReportModal()" id="btnViewReport" class="bg-blue-700 hover:bg-blue-800 text-white px-3.5 py-2 text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5 cursor-pointer">
+              📄 Gabaasa PDF Baafachuu
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 pt-3 border-t border-slate-100">
+          <label id="lblFilter" class="text-xs font-medium text-slate-600">Filtarii (Status):</label>
+          <select id="filterStatus" onchange="renderAdminList()" class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs bg-white focus:outline-none">
+          </select>
+        </div>
+      </div>
+
+      <div id="adminList" class="space-y-4"></div>
+    </section>
+
+    <!-- ================= 3. TECHNICIAN ONLY VIEW ================= -->
+    <section id="techSection" class="hidden space-y-5">
+      <div class="bg-teal-800 text-white rounded-xl shadow-md p-5">
+        <h2 id="txtTechHeading" class="text-xl font-bold flex items-center gap-2">🔧 Kutaa Ogeessa Bishaanii (Technician Workspace)</h2>
+        <p id="txtTechSub" class="text-xs text-teal-100 mt-1">Kallattii bulchiinsa irraa kenname ilaaluun rakkina maamilaa furuu.</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <label id="lblTechFilter" class="text-xs font-bold text-slate-700 whitespace-nowrap">Maqaa Ogeessaa:</label>
+          <input type="text" id="techNameFilter" oninput="renderTechView()" placeholder="Maqaa kee barreessi..."
+            class="w-full sm:w-56 rounded-lg border border-slate-300 px-3 py-1.5 text-xs focus:border-teal-600 focus:outline-none" />
+        </div>
+        <span id="techTaskCount" class="text-xs font-semibold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">0 Hojiiwwan</span>
+      </div>
+
+      <div id="techList" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <!-- ================= PROFESSIONAL PDF REPORT MODAL ================= -->
+  <div id="reportModal" class="fixed inset-0 bg-slate-900/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full overflow-hidden flex flex-col max-h-[95vh]">
+      
+      <div class="bg-slate-800 text-white px-4 py-3 flex flex-wrap justify-between items-center gap-2 no-print">
+        <span id="modalReportTitle" class="text-sm font-bold">Gabaasa Komii Maamiltootaa (PDF Preview)</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="copyReportText()" id="btnCopyRep" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3 py-1.5 text-xs font-bold rounded-lg shadow transition cursor-pointer">
+            📋 Copy Gabaasa
+          </button>
+          <button type="button" onclick="triggerMobilePrint()" id="btnPrint" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-xs font-bold rounded-lg shadow transition cursor-pointer">
+            🖨️ Save as PDF / Print
+          </button>
+          <button type="button" onclick="closeReportModal()" id="btnClose" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 text-xs font-bold rounded-lg cursor-pointer">
+            ✕ Cufuu
+          </button>
+        </div>
+      </div>
+
+      <div id="printableReportArea" class="flex-1 overflow-y-auto bg-white p-0">
+        <div style="background-color: #1d4ed8; color: #ffffff; padding: 20px 24px;">
+          <h1 id="repHeaderTitle" style="margin: 0 0 4px 0; font-size: 20px; font-weight: 700;">WAAJJIRA BISHAANII FI INARJII</h1>
+          <p id="repHeaderSub" style="margin: 0; font-size: 12px; color: #dbeafe;">Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water Office Complaint Report)</p>
+        </div>
+
+        <div style="padding: 18px 24px;">
+          <div style="background-color: #f8fafc; border-left: 4px solid #1d4ed8; padding: 10px 14px; margin-bottom: 16px; font-size: 11px; color: #334155;">
+            <span id="repMetaText"></span>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed;">
+            <tr>
+              <td style="border: 1px solid #e2e8f0; background-color: #f1f5f9; padding: 10px 6px; text-align: center;">
+                <div id="statTotal" style="font-size: 18px; font-weight: 700; color: #1d4ed8;">0</div>
+                <div id="lblStatTotal" style="font-size: 10px; color: #64748b; margin-top: 2px;">Walii Gala (Total)</div>
+              </td>
+              <td style="border: 1px solid #e2e8f0; background-color: #f1f5f9; padding: 10px 6px; text-align: center;">
+                <div id="statResolved" style="font-size: 18px; font-weight: 700; color: #059669;">0</div>
+                <div id="lblStatResolved" style="font-size: 10px; color: #64748b; margin-top: 2px;">Kan Furame (Resolved)</div>
+              </td>
+              <td style="border: 1px solid #e2e8f0; background-color: #f1f5f9; padding: 10px 6px; text-align: center;">
+                <div id="statProgress" style="font-size: 18px; font-weight: 700; color: #2563eb;">0</div>
+                <div id="lblStatProgress" style="font-size: 10px; color: #64748b; margin-top: 2px;">Hojii Irra / Ogeessa</div>
+              </td>
+              <td style="border: 1px solid #e2e8f0; background-color: #f1f5f9; padding: 10px 6px; text-align: center;">
+                <div id="statReview" style="font-size: 18px; font-weight: 700; color: #d97706;">0</div>
+                <div id="lblStatReview" style="font-size: 10px; color: #64748b; margin-top: 2px;">Ilaalamaa Jira (Review)</div>
+              </td>
+            </tr>
+          </table>
+
+          <h2 id="repSectionTitle" style="font-size: 14px; font-weight: 700; color: #1e3a8a; border-left: 4px solid #2563eb; padding-left: 8px; margin: 0 0 12px 0;">
+            Tarreeffama Komiiwwan Dhiyaatanii (Submitted Complaints)
+          </h2>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; margin-bottom: 20px;">
+              <thead>
+                <tr style="background-color: #1e40af; color: #ffffff;">
+                  <th id="thNo" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 4%;">No</th>
+                  <th id="thTicket" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 11%;">Ticket ID</th>
+                  <th id="thName" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 16%;">Maqaa Maamilaa</th>
+                  <th id="thLocation" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 11%;">Naannoo</th>
+                  <th id="thType" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 22%;">Gosa Komii</th>
+                  <th id="thTech" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 19%;">Ogeessa & Kallattii</th>
+                  <th id="thStatus" style="padding: 8px 5px; border: 1px solid #1e40af; text-align: left; width: 17%;">Sadarkaa</th>
+                </tr>
+              </thead>
+              <tbody id="reportTableBody"></tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 22px; font-size: 11px; color: #334155;">
+            <p id="repFooterNote" style="margin: 0 0 20px 0;"><strong>Hubachiisa:</strong> Gabaasni kun sirna komii maamiltootaa Waajjira Bishaanii irraa qophaa'e.</p>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="width: 50%; vertical-align: top;">
+                  <span id="repPrepBy" style="font-weight: 600;">Kan Qopheesse (Prepared By):</span><br><br>
+                  <span id="repSignName1">Maqaa: ___________________________</span><br><br>
+                  <span id="repSignMark1">Mallattoo: ________________________</span>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                  <span id="repAppBy" style="font-weight: 600;">Kan Mirkaneesse (Approved By):</span><br><br>
+                  <span id="repSignName2">Maqaa: ___________________________</span><br><br>
+                  <span id="repSignMark2">Mallattoo: ________________________</span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL FOR IMAGE PREVIEW -->
+  <div id="imageModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4 no-print" onclick="closeImageModal()">
+    <div class="max-w-2xl w-full bg-white p-2 rounded-xl shadow-2xl relative">
+      <button onclick="closeImageModal()" class="absolute top-2 right-2 bg-slate-900 text-white rounded-full w-8 h-8 font-bold flex items-center justify-center">&times;</button>
+      <img id="modalImg" src="" alt="Complaint Image" class="w-full h-auto rounded-lg max-h-[80vh] object-contain" />
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4 no-print">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 id="loginModalTitle" class="text-lg font-bold text-slate-800">Seensa Bulchiinsa Waajjira Bishaanii</h3>
+        <button onclick="closeAdminLogin()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <form id="loginForm" class="space-y-3">
+        <div>
+          <label id="lblLoginEmail" class="block text-xs font-medium text-slate-700 mb-1">Email Bulchiinsaa</label>
+          <input type="email" id="adminEmail" required placeholder="admin@wateroffice.gov.et"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+        </div>
+        <div>
+          <label id="lblLoginPass" class="block text-xs font-medium text-slate-700 mb-1">Password</label>
+          <input type="password" id="adminPassword" required placeholder="••••••••"
+            class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+        </div>
+        <button type="submit" id="btnLoginSubmit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2.5 rounded-lg text-sm transition">
+          Seeni (Login)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import {
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDoJe_LnrSU1yBSV1z8FZLpdNQ6d8NfyPA",
+      authDomain: "waterofficecomplaint-c6c59.firebaseapp.com",
+      projectId: "waterofficecomplaint-c6c59",
+      storageBucket: "waterofficecomplaint-c6c59.firebasestorage.app",
+      messagingSenderId: "538640729178",
+      appId: "1:538640729178:web:e51c92224c7349ccc84463",
+      measurementId: "G-CXJ1HF9ECY"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const complaintsCol = collection(db, "water_complaints");
+
+    const I18N = {
+      om: {
+        title: "Waajjira Bishaanii", subtitle: "Sirna Komii Maamiltootaa",
+        logoutBtn: "Bahuu (Logout)",
+        formHeading: "Komii Haaraa Dhiyeessi", formSub: "Unka armaan gadii guutuun komii keessan ergaa.",
+        lblName: "Maqaa Guutuu *", lblPhone: "Lakkoofsa Bilbilaa *", lblMeter: "Lakkoofsa Meter", lblLocation: "Ganda / Naannoo *",
+        lblType: "Gosa Komii Filadhu *", selectPlaceholder: "-- Gosa komii keessanii filadhaa --", lblDetails: "Ibsa Dabalataa",
+        lblImage: "Suuraa Ragaa (Tuuboo dho'e ykn Meter - Yoo jiraate)",
+        btnSubmit: "Komii Ergi", btnSending: "Ergamaa jira...", listHeading: "Komiiwwan Ergamaniif Deebii Waajjiraa",
+        emptyList: "Hanga ammaatti komiin galmaa'e hin jiru.", replyLabel: "Deebii Waajjira Bishaanii:", changeStatus: "Sadarkaa Jijjiiri:",
+        deleteBtn: "Haqi", confirmDelete: "Komii kana haquu barbaadduu?", rejectPrompt: "Sababa komiin kun hin fudhatamneef barreessi:",
+        submittedAlert: "Galatoomaa! Komiin keessan lakkoofsa {id} tiin galmaa'eera.", notRecorded: "Hin galmoofne",
+        adminHeading: "Kutaa Bulchiinsaa (Admin Dashboard)",
+        adminSub: "Ogeessa bishaanii ramaduu, kallattii kennuu fi gabaasa PDF baafachuu.",
+        viewReportBtn: "📄 Gabaasa PDF Baafachuu",
+        filterLbl: "Filtarii (Status):",
+        assignBoxTitle: "Kallattii Ogeessa Bishaaniif Kennuu (Assign Technician):",
+        techNamePlaceholder: "Maqaa Ogeessa Bishaanii (Fkn: Obbo Tolasaa)",
+        adminDirPlaceholder: "Kallattii / Ajaja Bulchiinsaa barreessi...",
+        btnAssignSave: "Ogeessaaf Ergi / Save",
+        assignedSavedAlert: "Kallattiin ogeessa bishaaniif ergameera!",
+        techHeading: "🔧 Kutaa Ogeessa Bishaanii (Technician Workspace)",
+        techSub: "Kallattii bulchiinsa irraa kenname ilaaluun rakkina maamilaa furuu.",
+        techFilterLbl: "Maqaa Ogeessaa:",
+        techFilterPlaceholder: "Maqaa kee barreessi...",
+        techJobsSuffix: "Hojiiwwan",
+        adminDirectiveLbl: "Kallattii Bulchiinsaa:",
+        techNoteLbl: "Gabaasa / Yaada Ogeessaa:",
+        techNotePlaceholder: "Waan hojjetame barreessi (Fkn: Tuuboon suphameera)...",
+        btnTechResolve: "✅ Rakkichi Furameera (Resolve)",
+        btnTechProgress: "🛠️ Hojii Irra Jira (In Progress)",
+        techUpdatedAlert: "Haalli hojii keetii galmaa'eera! Rakkichi furameera.",
+        assignedTechTag: "Ogeessa Ramadame:",
+        statusLabels: {
+          "ALL": "Hunda (All)",
+          "Received": "Kan Fudhatame (Received)",
+          "Under Review": "Ilaalamaa Jira (Review)",
+          "Assigned": "Ogeessaaf Kenname (Assigned)",
+          "In Progress": "Hojii Irra (In Progress)",
+          "Resolved": "Furameera (Resolved)",
+          "Rejected": "Hin Fudhatamne (Rejected)"
+        },
+        modalReportTitle: "Gabaasa Komii Maamiltootaa (PDF Preview)",
+        btnCopyRep: "📋 Copy Gabaasa",
+        btnPrint: "🖨️ Save as PDF / Print",
+        btnClose: "✕ Cufuu",
+        repHeaderTitle: "WAAJJIRA BISHAANII FI INARJII",
+        repHeaderSub: "Gabaasa Komii Maamiltootaa fi Sadarkaa Furmaataa (Water Office Complaint Report)",
+        repSectionTitle: "Tarreeffama Komiiwwan Dhiyaatanii (Submitted Complaints)",
+        statTotal: "Walii Gala (Total)", statResolved: "Kan Furame (Resolved)", statProgress: "Hojii Irra / Ogeessa", statReview: "Ilaalamaa Jira (Review)",
+        th: ["No", "Ticket ID", "Maqaa Maamilaa", "Naannoo", "Gosa Komii", "Ogeessa & Kallattii", "Sadarkaa"],
+        repFooterNote: "Hubachiisa: Gabaasni kun sirna komii maamiltootaa Waajjira Bishaanii irraa qophaa'e.",
+        repPrepBy: "Kan Qopheesse (Prepared By):", repAppBy: "Kan Mirkaneesse (Approved By):",
+        repName: "Maqaa: ___________________________", repSign: "Mallattoo: ________________________",
+        loginTitle: "Seensa Bulchiinsa Waajjira Bishaanii", loginEmail: "Email Bulchiinsaa", loginPass: "Password", loginBtn: "Seeni (Login)",
+        types: [
+          "Bishaan naannoo keenya hin dhufu.", "Dhiibbaan bishaanii gadi bu'e.", "Tuuboon bishaanii dho'e.",
+          "Meter bishaanii sirnaan hin hojjetu.", "Kaffaltiin bishaanii ol ka'e.", "Dubbisni Meter dogoggora qaba.",
+          "Bishaan qulqullina hin qabu.", "Kaffaltiin koo sirnaan hin galmoofne.", "Meter jijjiiruu barbaada.",
+          "Tajaajila bishaanii dhaabuu ykn deebisanii banuu barbaada.", "Sararri bishaanii mana koo hin geenye.", "Komii biraa."
+        ],
+        statuses: {
+          "Received": "Komiin keessan nu qaqqabeera.", "Under Review": "Komiin keessan ilaalamaa jira.",
+          "Assigned": "Komiin keessan ogeessa bishaaniif kennameera.",
+          "In Progress": "Ogeessi bishaanii rakkoo keessan furuuf hojjechaa jira.",
+          "Resolved": "Komiin keessan ogeessa bishaaniin furameera.",
+          "Rejected": "Komiin keessan hin fudhatamne. Sababni: "
+        }
+      },
+      am: {
+        title: "የውሃ አገልግሎት ጽ/ቤት", subtitle: "የደንበኞች ቅሬታ ማቅረቢያ ሥርዓት",
+        logoutBtn: "ውጣ (Logout)",
+        formHeading: "አዲስ ቅሬታ ያቅርቡ", formSub: "ከታች ያለውን ቅጽ በመሙላት ቅሬታዎን ይላኩ።",
+        lblName: "ሙሉ ስም *", lblPhone: "ስልክ ቁጥር *", lblMeter: "የቆጣሪ ቁጥር", lblLocation: "ቀበሌ / አካባቢ *",
+        lblType: "የቅሬታውን ዓይነት ይምረጡ *", selectPlaceholder: "-- የቅሬታ ዓይነት ይምረጡ --", lblDetails: "ተጨማሪ ማብራሪያ",
+        lblImage: "የማስረጃ ፎቶ (የፈነዳ ቱቦ ወይም ቆጣሪ - ካለ)",
+        btnSubmit: "ቅሬታ ላክ", btnSending: "በመላክ ላይ...", listHeading: "የቀረቡ ቅሬታዎችና የጽ/ቤቱ ምላሽ",
+        emptyList: "እስካሁን የተመዘገበ ቅሬታ የለም።", replyLabel: "የውሃ ጽ/ቤት ምላሽ:", changeStatus: "ሁኔታ ቀይር:",
+        deleteBtn: "ሰርዝ", confirmDelete: "ይህን ቅሬታ መሰረዝ ይፈልጋሉ?", rejectPrompt: "ምክንያቱን ይጻፉ:",
+        submittedAlert: "እናመሰግናለን! ቅሬታዎ በመለያ ቁጥር {id} ተመዝግቧል።", notRecorded: "አልተመዘገበም",
+        adminHeading: "የአስተዳደር ክፍል (Admin Dashboard)",
+        adminSub: "ለውሃ ባለሙያ መመሪያ መስጠት፣ ሁኔታ መቀየር እና PDF ሪፖርት ማውጣት።",
+        viewReportBtn: "📄 PDF ሪፖርት አውጣ",
+        filterLbl: "ማጣሪያ (Status):",
+        assignBoxTitle: "ለውሃ ባለሙያ መመሪያ መስጠት (Assign Technician):",
+        techNamePlaceholder: "የባለሙያው ስም (ለምሳሌ፡ አቶ ቶሎሳ)",
+        adminDirPlaceholder: "የአስተዳደር መመሪያ እዚህ ይጻፉ...",
+        btnAssignSave: "ለባለሙያ ላክ / Save",
+        assignedSavedAlert: "መመሪያው ለውሃ ባለሙያ ተልኳል!",
+        techHeading: "🔧 የውሃ ባለሙያ ክፍል (Technician Workspace)",
+        techSub: "ከአስተዳደር የተሰጠውን መመሪያ በመመልከት ችግሩን መፍታት።",
+        techFilterLbl: "የባለሙያ ስም:",
+        techFilterPlaceholder: "ስምዎን ይጻፉ...",
+        techJobsSuffix: "ስራዎች",
+        adminDirectiveLbl: "የአስተዳደር መመሪያ:",
+        techNoteLbl: "የባለሙያው ሪፖርት / ማብራሪያ:",
+        techNotePlaceholder: "የተሰራውን ስራ ይጻፉ (ለምሳሌ፡ ቱቦው ተጠግኗል)...",
+        btnTechResolve: "✅ ችግሩ ተፈቷል (Resolve)",
+        btnTechProgress: "🛠️ እየተሰራ ነው (In Progress)",
+        techUpdatedAlert: "የስራ ሁኔታዎ ተመዝግቧል! ችግሩ ተፈቷል።",
+        assignedTechTag: "የተመደበ ባለሙያ:",
+        statusLabels: {
+          "ALL": "ሁሉም (All)",
+          "Received": "የደረሰ (Received)",
+          "Under Review": "እየታየ ያለ (Review)",
+          "Assigned": "ለባለሙያ የተሰጠ (Assigned)",
+          "In Progress": "በመሰራት ላይ (In Progress)",
+          "Resolved": "የተፈታ (Resolved)",
+          "Rejected": "ተቀባይነት ያላገኘ (Rejected)"
+        },
+        modalReportTitle: "የደንበኞች ቅሬታ ሪፖርት (PDF Preview)",
+        btnCopyRep: "📋 ሪፖርቱን ኮፒ አድርግ",
+        btnPrint: "🖨️ PDF አድርግ / Print",
+        btnClose: "✕ ዝጋ",
+        repHeaderTitle: "የውሃና ኢነርጂ ጽ/ቤት",
+        repHeaderSub: "የደንበኞች ቅሬታ እና የመፍትሄ ደረጃ ሪፖርት (Water Office Complaint Report)",
+        repSectionTitle: "የቀረቡ ቅሬታዎች ዝርዝር (Submitted Complaints)",
+        statTotal: "ጠቅላላ (Total)", statResolved: "የተፈታ (Resolved)", statProgress: "በመሰራት ላይ / ባለሙያ", statReview: "እየታየ ያለ (Review)",
+        th: ["ተ.ቁ", "ቲክኬት ID", "የደንበኛ ስም", "አካባቢ", "የቅሬታ ዓይነት", "ባለሙያና መመሪያ", "ሁኔታ"],
+        repFooterNote: "ማሳሰቢያ፡ ይህ ሪፖርት ከውሃ አገልግሎት ጽ/ቤት የቅሬታ መቀበያ ስርዓት የተዘጋጀ ነው።",
+        repPrepBy: "ያዘጋጀው (Prepared By):", repAppBy: "ያጸደቀው (Approved By):",
+        repName: "ስም: ___________________________", repSign: "ፊርማ: ________________________",
+        loginTitle: "የውሃ ጽ/ቤት አስተዳደር መግቢያ", loginEmail: "የአስተዳደር ኢሜል", loginPass: "የይለፍ ቃል", loginBtn: "ግባ (Login)",
+        types: [
+          "በአካባቢያችን ውሃ አይመጣም።", "የውሃ ግፊት ቀንሷል።", "የውሃ ቱቦ ፈንድቷል።", "የውሃ ቆጣሪ በትክክል አይሰራም።",
+          "የውሃ ክፍያ በጣም ጨምሯል።", "የቆጣሪ ንባብ ስህተት አለበት።", "ውሃው ንጽህና የለውም።", "ክፍያዬ በትክክል አልተመዘገበም።",
+          "ቆጣሪ መቀየር እፈልጋለሁ።", "የውሃ አገልግሎት ማቋረጥ ወይም እንደገና ማስከፈት እፈልጋለሁ።", "የውሃ መስመር ወደ ቤቴ አልደረሰም።", "ሌላ ቅሬታ።"
+        ],
+        statuses: {
+          "Received": "ቅሬታዎ ደርሶናል።", "Under Review": "ቅሬታዎ እየታየ ነው።",
+          "Assigned": "ቅሬታዎ ለውሃ ባለሙያ ተመርቷል።",
+          "In Progress": "የውሃ ባለሙያ ችግርዎን ለመፍታት እየሰራ ነው።",
+          "Resolved": "ቅሬታዎ በውሃ ባለሙያ ተፈቷል።",
+          "Rejected": "ቅሬታዎ ተቀባይነት አላገኘም። ምክንያቱ: "
+        }
+      },
+      en: {
+        title: "Water Supply Office", subtitle: "Customer Complaint System",
+        logoutBtn: "Logout",
+        formHeading: "Submit a New Complaint", formSub: "Fill out the form below to send your complaint.",
+        lblName: "Full Name *", lblPhone: "Phone Number *", lblMeter: "Meter No.", lblLocation: "Kebele / Area *",
+        lblType: "Select Complaint Type *", selectPlaceholder: "-- Select your complaint type --", lblDetails: "Additional Details",
+        lblImage: "Evidence Image (Burst pipe or Meter - Optional)",
+        btnSubmit: "Submit Complaint", btnSending: "Submitting...", listHeading: "Submitted Complaints & Office Responses",
+        emptyList: "No complaints recorded yet.", replyLabel: "Water Office Response:", changeStatus: "Update Status:",
+        deleteBtn: "Delete", confirmDelete: "Delete this complaint?", rejectPrompt: "Enter rejection reason:",
+        submittedAlert: "Thank you! Registered with ID {id}.", notRecorded: "Not provided",
+        adminHeading: "Admin & Dispatch Dashboard",
+        adminSub: "Assign water technicians, give instructions, and export PDF reports.",
+        viewReportBtn: "📄 Export PDF Report",
+        filterLbl: "Filter Status:",
+        assignBoxTitle: "Assign Water Technician & Directive:",
+        techNamePlaceholder: "Technician Name (e.g. Mr. Tolosa)",
+        adminDirPlaceholder: "Write instruction/directive for technician...",
+        btnAssignSave: "Assign & Send",
+        assignedSavedAlert: "Directive assigned to technician!",
+        techHeading: "🔧 Water Technician Workspace",
+        techSub: "Review admin directives and resolve customer complaints.",
+        techFilterLbl: "Technician Name:",
+        techFilterPlaceholder: "Enter your name...",
+        techJobsSuffix: "Tasks",
+        adminDirectiveLbl: "Admin Directive:",
+        techNoteLbl: "Technician Resolution Note:",
+        techNotePlaceholder: "Describe work completed (e.g. Pipe repaired)...",
+        btnTechResolve: "✅ Mark Resolved",
+        btnTechProgress: "🛠️ Mark In Progress",
+        techUpdatedAlert: "Task marked as resolved!",
+        assignedTechTag: "Assigned Technician:",
+        statusLabels: {
+          "ALL": "All",
+          "Received": "Received",
+          "Under Review": "Under Review",
+          "Assigned": "Assigned to Tech",
+          "In Progress": "In Progress",
+          "Resolved": "Resolved",
+          "Rejected": "Rejected"
+        },
+        modalReportTitle: "Customer Complaints Report (PDF Preview)",
+        btnCopyRep: "📋 Copy Report",
+        btnPrint: "🖨️ Save as PDF / Print",
+        btnClose: "✕ Close",
+        repHeaderTitle: "WATER & ENERGY OFFICE",
+        repHeaderSub: "Customer Complaints & Resolution Status Report",
+        repSectionTitle: "Submitted Complaints List",
+        statTotal: "Total Complaints", statResolved: "Resolved", statProgress: "Active / Tech", statReview: "Under Review",
+        th: ["No", "Ticket ID", "Customer Name", "Area", "Complaint Type", "Technician & Directive", "Status"],
+        repFooterNote: "Note: This report was generated from the Water Office Customer Complaint System.",
+        repPrepBy: "Prepared By:", repAppBy: "Approved By:",
+        repName: "Name: ___________________________", repSign: "Signature: ________________________",
+        loginTitle: "Water Office Admin Login", loginEmail: "Admin Email", loginPass: "Password", loginBtn: "Login",
+        types: [
+          "There is no water supply in our area.", "Water pressure has dropped.", "A water pipe has burst.",
+          "The water meter is not working properly.", "The water bill has increased excessively.", "The meter reading is incorrect.",
+          "The water is not clean.", "My payment was not properly recorded.", "I want to replace the water meter.",
+          "I want to disconnect or reconnect water service.", "The water pipeline has not reached my house.", "Other complaint."
+        ],
+        statuses: {
+          "Received": "Your complaint has been received.", "Under Review": "Your complaint is under review.",
+          "Assigned": "Your complaint has been assigned to a water technician.",
+          "In Progress": "Our water technician is working to resolve your issue.",
+          "Resolved": "Your complaint has been resolved by our technician.",
+          "Rejected": "Your complaint was rejected. Reason: "
+        }
+      }
+    };
+
+    const STATUS_BADGES = {
+      "Received": "bg-slate-100 text-slate-700 border-slate-300",
+      "Under Review": "bg-amber-100 text-amber-800 border-amber-300",
+      "Assigned": "bg-purple-100 text-purple-800 border-purple-300",
+      "In Progress": "bg-blue-100 text-blue-800 border-blue-300",
+      "Resolved": "bg-emerald-100 text-emerald-800 border-emerald-300",
+      "Rejected": "bg-rose-100 text-rose-800 border-rose-300"
+    };
+
+    const REPORT_BADGE_STYLES = {
+      "Received": "background-color: #e2e8f0; color: #334155;",
+      "Under Review": "background-color: #fef3c7; color: #92400e;",
+      "Assigned": "background-color: #f3e8ff; color: #6b21a8;",
+      "In Progress": "background-color: #dbeafe; color: #1e40af;",
+      "Resolved": "background-color: #d1fae5; color: #065f46;",
+      "Rejected": "background-color: #ffe4e6; color: #9f1239;"
+    };
+
+    let currentLang = localStorage.getItem('water_app_lang') || 'om';
+    let complaints = [];
+    let isAdminLoggedIn = false;
+    let tapCount = 0;
+    let tapTimer = null;
+
+    // Determine active role from URL query params (?tech=true or ?admin=true)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTechMode = urlParams.get('tech') === 'true';
+    const isAdminMode = urlParams.get('admin') === 'true';
+
+    // Strictly isolate views based on role
+    function applyRoleVisibility() {
+      const custSec = document.getElementById('customerSection');
+      const admSec = document.getElementById('adminSection');
+      const techSec = document.getElementById('techSection');
+      const btnLogoutAdm = document.getElementById('btnLogoutAdmin');
+
+      custSec.classList.add('hidden');
+      admSec.classList.add('hidden');
+      techSec.classList.add('hidden');
+      btnLogoutAdm.classList.add('hidden');
+
+      if (isTechMode) {
+        // Technician sees ONLY Technician view
+        techSec.classList.remove('hidden');
+        renderTechView();
+      } else if (isAdminLoggedIn) {
+        // Logged-in Admin sees ONLY Admin view
+        admSec.classList.remove('hidden');
+        btnLogoutAdm.classList.remove('hidden');
+        renderAdminList();
+      } else {
+        // Customer sees ONLY Customer view
+        custSec.classList.remove('hidden');
+        renderCustomerList();
+      }
+    }
+
+    if (isAdminMode && !isTechMode) {
+      setTimeout(() => {
+        if (!isAdminLoggedIn) document.getElementById('loginModal').classList.remove('hidden');
+      }, 250);
+    }
+
+    window.handleSecretTap = function() {
+      if (isTechMode) return; // Technician URL does not trigger admin login
+      tapCount++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+      if (tapCount >= 5) {
+        tapCount = 0;
+        if (!isAdminLoggedIn) document.getElementById('loginModal').classList.remove('hidden');
+      }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (isTechMode) return;
+      isAdminLoggedIn = !!user;
+      applyRoleVisibility();
+    });
+
+    window.closeAdminLogin = function() {
+      document.getElementById('loginModal').classList.add('hidden');
+    };
+
+    window.logoutAdmin = function() {
+      signOut(auth).then(() => {
+        isAdminLoggedIn = false;
+        applyRoleVisibility();
+      });
+    };
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value.trim();
+      const pass = document.getElementById('adminPassword').value.trim();
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        closeAdminLogin();
+        this.reset();
+      } catch (err) {
+        alert("Email ykn Password dogoggora dha.");
+      }
+    });
+
+    const q = query(complaintsCol, orderBy("createdAtMs", "desc"));
+    onSnapshot(q, (snapshot) => {
+      complaints = snapshot.docs.map(docSnap => ({ docId: docSnap.id, ...docSnap.data() }));
+      if (isTechMode) {
+        renderTechView();
+      } else if (isAdminLoggedIn) {
+        renderAdminList();
+      } else {
+        renderCustomerList();
+      }
+    });
+
+    window.changeLanguage = function(lang) {
+      currentLang = lang;
+      localStorage.setItem('water_app_lang', lang);
+      document.documentElement.lang = currentLang;
+      applyTranslations();
+      if (isTechMode) renderTechView();
+      else if (isAdminLoggedIn) renderAdminList();
+      else renderCustomerList();
+    };
+
+    function convertFileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    document.getElementById('complaintForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const t = I18N[currentLang];
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true; btn.textContent = t.btnSending;
+
+      const ticketId = 'WB-' + Math.floor(1000 + Math.random() * 9000);
+      const now = new Date();
+      const imageFile = document.getElementById('complaintImage').files[0];
+      let imageBase64 = "";
+
+      if (imageFile) {
+        try { imageBase64 = await convertFileToBase64(imageFile); } catch (err) { console.error(err); }
+      }
+
+      try {
+        await addDoc(complaintsCol, {
+          ticketId, 
+          name: document.getElementById('custName').value.trim(),
+          phone: document.getElementById('custPhone').value.trim(),
+          meter: document.getElementById('meterNo').value.trim(),
+          location: document.getElementById('location').value.trim(),
+          typeIndex: parseInt(document.getElementById('complaintType').value, 10),
+          details: document.getElementById('details').value.trim(),
+          imageBase64: imageBase64,
+          status: 'Received', 
+          rejectReason: '',
+          assignedTech: '',
+          adminDirective: '',
+          techNotes: '',
+          createdAtStr: now.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
+          createdAtMs: Date.now(), 
+          createdAt: serverTimestamp()
+        });
+
+        this.reset();
+        alert(t.submittedAlert.replace('{id}', ticketId));
+      } catch (err) {
+        alert("Erguun hin milkoofne: " + err.message);
+      } finally {
+        btn.disabled = false; btn.textContent = t.btnSubmit;
+      }
+    });
+
+    // =========================================================================
+    // ADMIN ASSIGN TO TECHNICIAN FUNCTION
+    // =========================================================================
+    window.assignTechnician = async function(docId) {
+      if (!isAdminLoggedIn) return;
+      const t = I18N[currentLang];
+      const techInput = document.getElementById(`techInput_${docId}`).value.trim();
+      const dirInput = document.getElementById(`dirInput_${docId}`).value.trim();
+
+      if (!techInput) {
+        alert("Maqaa Ogeessa Bishaanii barreessi!");
+        return;
+      }
+
+      try {
+        await updateDoc(doc(db, "water_complaints", docId), {
+          assignedTech: techInput,
+          adminDirective: dirInput,
+          status: 'Assigned',
+          updatedAt: serverTimestamp()
+        });
+        alert(t.assignedSavedAlert);
+      } catch (err) {
+        alert("Dogoggora: " + err.message);
+      }
+    };
+
+    // =========================================================================
+    // TECHNICIAN ACTION FUNCTIONS (RESOLVE / IN PROGRESS)
+    // =========================================================================
+    window.techUpdateComplaint = async function(docId, newStatus) {
+      const t = I18N[currentLang];
+      const noteEl = document.getElementById(`techNote_${docId}`);
+      const noteVal = noteEl ? noteEl.value.trim() : "";
+
+      try {
+        await updateDoc(doc(db, "water_complaints", docId), {
+          status: newStatus,
+          techNotes: noteVal,
+          updatedAt: serverTimestamp()
+        });
+        alert(t.techUpdatedAlert);
+      } catch (err) {
+        alert("Dogoggora: " + err.message);
+      }
+    };
+
+    window.renderTechView = function() {
+      const t = I18N[currentLang];
+      const nameFilter = (document.getElementById('techNameFilter').value || "").toLowerCase().trim();
+
+      // Technician sees assigned active tasks (not yet Resolved) matching technician name filter if entered
+      const techTasks = complaints.filter(c => {
+        const hasTech = c.assignedTech && c.assignedTech.trim() !== "";
+        const isActive = c.status !== 'Resolved';
+        if (!hasTech || !isActive) return false;
+        if (nameFilter) {
+          return c.assignedTech.toLowerCase().includes(nameFilter);
+        }
+        return true;
+      });
+
+      document.getElementById('techTaskCount').textContent = `${techTasks.length} ${t.techJobsSuffix}`;
+      const techList = document.getElementById('techList');
+
+      if (techTasks.length === 0) {
+        techList.innerHTML = `<div class="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-500 text-sm">${t.emptyList}</div>`;
+        return;
+      }
+
+      techList.innerHTML = techTasks.map(item => {
+        const badge = STATUS_BADGES[item.status] || STATUS_BADGES["Assigned"];
+        const typeText = t.types[item.typeIndex] || "";
+        const localizedStatusName = t.statusLabels[item.status] || item.status;
+
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex flex-wrap justify-between items-start gap-2">
+              <div>
+                <span class="text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">${item.ticketId}</span>
+                <span class="text-xs text-slate-400 ml-2">${item.createdAtStr || ''}</span>
+                <h4 class="font-bold text-base text-slate-800 mt-1.5">${typeText}</h4>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full border ${badge}">${localizedStatusName}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-700 bg-slate-50 p-3 rounded-lg">
+              <div>👤 <strong>${item.name}</strong></div>
+              <div>📞 <strong>${item.phone}</strong></div>
+              <div>📍 <strong>${item.location}</strong> (Meter: ${item.meter || t.notRecorded})</div>
+            </div>
+
+            ${item.details ? `<p class="text-xs text-slate-600 italic">"${item.details}"</p>` : ''}
+
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r-lg text-xs space-y-1">
+              <div class="font-bold text-amber-900">🔧 ${t.assignedTechTag} ${item.assignedTech}</div>
+              <div class="text-amber-800"><strong>${t.adminDirectiveLbl}</strong> ${item.adminDirective || '—'}</div>
+            </div>
+
+            ${item.imageBase64 ? `
+              <div>
+                <img src="${item.imageBase64}" onclick="openImageModal('${item.imageBase64}')" class="w-24 h-24 object-cover rounded-lg border border-slate-200 cursor-pointer" alt="Evidence" />
+              </div>
+            ` : ''}
+
+            <div class="pt-3 border-t border-slate-100 space-y-2.5">
+              <label class="block text-xs font-bold text-slate-700">${t.techNoteLbl}</label>
+              <input type="text" id="techNote_${item.docId}" value="${item.techNotes || ''}" placeholder="${t.techNotePlaceholder}"
+                class="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs focus:border-teal-600 focus:outline-none" />
+              
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button type="button" onclick="techUpdateComplaint('${item.docId}', 'In Progress')"
+                  class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition cursor-pointer">
+                  ${t.btnTechProgress}
+                </button>
+                <button type="button" onclick="techUpdateComplaint('${item.docId}', 'Resolved')"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition cursor-pointer">
+                  ${t.btnTechResolve}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    // =========================================================================
+    // REPORT MODAL, PRINT & COPY FUNCTIONS
+    // =========================================================================
+    window.openReportModal = function() {
+      const filter = document.getElementById('filterStatus').value;
+      const dataToExport = filter === 'ALL' ? complaints : complaints.filter(c => c.status === filter);
+
+      if (dataToExport.length === 0) {
+        alert("Gabaafamuuf komiin hin jiru / No complaints to report!");
+        return;
+      }
+
+      const t = I18N[currentLang];
+      const nowStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      const filterLabel = t.statusLabels[filter] || filter;
+
+      document.getElementById('repMetaText').innerHTML = `
+        <strong>Guyyaa Gabaasaa (Date):</strong> ${nowStr} &nbsp;|&nbsp;
+        <strong>Afaanota:</strong> Afaan Oromoo / አማርኛ / English &nbsp;|&nbsp;
+        <strong>Haala (Filter):</strong> ${filterLabel}
+      `;
+
+      document.getElementById('statTotal').textContent = dataToExport.length;
+      document.getElementById('statResolved').textContent = dataToExport.filter(c => c.status === 'Resolved').length;
+      document.getElementById('statProgress').textContent = dataToExport.filter(c => c.status === 'In Progress' || c.status === 'Assigned').length;
+      document.getElementById('statReview').textContent = dataToExport.filter(c => c.status === 'Under Review').length;
+
+      const tbody = document.getElementById('reportTableBody');
+      tbody.innerHTML = dataToExport.map((item, index) => {
+        const bgRow = index % 2 === 1 ? 'background-color: #f8fafc;' : 'background-color: #ffffff;';
+        const badgeStyle = REPORT_BADGE_STYLES[item.status] || REPORT_BADGE_STYLES['Received'];
+        const statusText = t.statusLabels[item.status] || item.status;
+        const techInfo = item.assignedTech
+          ? `<strong>${item.assignedTech}</strong>${item.adminDirective ? `<br><span style="color:#475569;">(${item.adminDirective})</span>` : ''}`
+          : '—';
+
+        return `
+          <tr style="${bgRow}">
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">${index + 1}</td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1; font-weight: 700;">${item.ticketId || ''}</td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">${item.name || ''}<br><span style="color:#64748b;font-size:9px;">${item.phone || ''}</span></td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">${item.location || ''}</td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">${t.types[item.typeIndex] || 'Komii'}</td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">${techInfo}</td>
+            <td style="padding: 6px 5px; border: 1px solid #cbd5e1;">
+              <span style="padding: 2px 5px; border-radius: 4px; font-weight: 700; font-size: 8.5px; display: inline-block; ${badgeStyle}">
+                ${statusText}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('reportModal').classList.remove('hidden');
+    };
+
+    window.triggerMobilePrint = function() {
+      setTimeout(() => { window.print(); }, 150);
+    };
+
+    window.copyReportText = function() {
+      const filter = document.getElementById('filterStatus').value;
+      const dataToExport = filter === 'ALL' ? complaints : complaints.filter(c => c.status === filter);
+      const t = I18N[currentLang];
+
+      if (dataToExport.length === 0) {
+        alert("Gabaafamuuf komiin hin jiru!");
+        return;
+      }
+
+      let text = `${t.repHeaderTitle}\n${t.repHeaderSub}\nGuyyaa: ${new Date().toLocaleString()}\nWalii Gala: ${dataToExport.length}\n\n`;
+      dataToExport.forEach((item, idx) => {
+        const statusText = t.statusLabels[item.status] || item.status;
+        const typeText = t.types[item.typeIndex] || "";
+        text += `${idx + 1}. [${item.ticketId}] ${item.name} (${item.phone}) - ${item.location}\n   Gosa: ${typeText}\n   Ogeessa: ${item.assignedTech || 'Hin ramadamne'}\n   Status: ${statusText}\n\n`;
+      });
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Gabaasni copy ta'eera!");
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    };
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      alert("Gabaasni copy ta'eera!");
+    }
+
+    window.closeReportModal = function() {
+      document.getElementById('reportModal').classList.add('hidden');
+    };
+
+    window.openImageModal = function(src) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('imageModal').classList.remove('hidden');
+    };
+
+    window.closeImageModal = function() {
+      document.getElementById('imageModal').classList.add('hidden');
+    };
+
+    window.updateStatus = async function(docId, newStatus) {
+      if (!isAdminLoggedIn) return;
+      const t = I18N[currentLang];
+      const item = complaints.find(c => c.docId === docId);
+      if (!item) return;
+
+      let rejectReason = "";
+      if (newStatus === 'Rejected') {
+        const reason = prompt(t.rejectPrompt, item.rejectReason || "");
+        if (reason === null) { renderAdminList(); return; }
+        rejectReason = reason.trim();
+      }
+      await updateDoc(doc(db, "water_complaints", docId), {
+        status: newStatus, rejectReason: rejectReason, updatedAt: serverTimestamp()
+      });
+    };
+
+    window.deleteComplaint = async function(docId) {
+      if (!isAdminLoggedIn) return;
+      const t = I18N[currentLang];
+      if (confirm(t.confirmDelete)) {
+        await deleteDoc(doc(db, "water_complaints", docId));
+      }
+    };
+
+    function applyTranslations() {
+      const t = I18N[currentLang];
+      document.getElementById('langSelect').value = currentLang;
+      document.documentElement.lang = currentLang;
+      
+      document.getElementById('txtTitle').textContent = t.title;
+      document.getElementById('txtSubtitle').textContent = t.subtitle;
+      document.getElementById('btnLogoutAdmin').textContent = t.logoutBtn;
+      document.getElementById('txtFormHeading').textContent = t.formHeading;
+      document.getElementById('txtFormSub').textContent = t.formSub;
+      document.getElementById('lblName').textContent = t.lblName;
+      document.getElementById('lblPhone').textContent = t.lblPhone;
+      document.getElementById('lblMeter').textContent = t.lblMeter;
+      document.getElementById('lblLocation').textContent = t.lblLocation;
+      document.getElementById('lblType').textContent = t.lblType;
+      document.getElementById('lblDetails').textContent = t.lblDetails;
+      document.getElementById('lblImage').textContent = t.lblImage;
+      document.getElementById('btnSubmit').textContent = t.btnSubmit;
+      document.getElementById('txtListHeading').textContent = t.listHeading;
+
+      document.getElementById('txtAdminHeading').textContent = t.adminHeading;
+      document.getElementById('txtAdminSub').textContent = t.adminSub;
+      document.getElementById('btnViewReport').textContent = t.viewReportBtn;
+      document.getElementById('lblFilter').textContent = t.filterLbl;
+
+      document.getElementById('txtTechHeading').textContent = t.techHeading;
+      document.getElementById('txtTechSub').textContent = t.techSub;
+      document.getElementById('lblTechFilter').textContent = t.techFilterLbl;
+      document.getElementById('techNameFilter').placeholder = t.techFilterPlaceholder;
+
+      const filterSelect = document.getElementById('filterStatus');
+      const currentFilterVal = filterSelect.value || 'ALL';
+      const statuses = ["ALL", "Received", "Under Review", "Assigned", "In Progress", "Resolved", "Rejected"];
+      filterSelect.innerHTML = statuses.map(st => `
+        <option value="${st}" ${st === currentFilterVal ? 'selected' : ''}>${t.statusLabels[st]}</option>
+      `).join('');
+
+      document.getElementById('modalReportTitle').textContent = t.modalReportTitle;
+      document.getElementById('btnCopyRep').textContent = t.btnCopyRep;
+      document.getElementById('btnPrint').textContent = t.btnPrint;
+      document.getElementById('btnClose').textContent = t.btnClose;
+      document.getElementById('repHeaderTitle').textContent = t.repHeaderTitle;
+      document.getElementById('repHeaderSub').textContent = t.repHeaderSub;
+      document.getElementById('repSectionTitle').textContent = t.repSectionTitle;
+      document.getElementById('lblStatTotal').textContent = t.statTotal;
+      document.getElementById('lblStatResolved').textContent = t.statResolved;
+      document.getElementById('lblStatProgress').textContent = t.statProgress;
+      document.getElementById('lblStatReview').textContent = t.statReview;
+      document.getElementById('repFooterNote').innerHTML = `<strong>${t.repFooterNote.split(':')[0]}:</strong>${t.repFooterNote.split(':')[1] || ''}`;
+      document.getElementById('repPrepBy').textContent = t.repPrepBy;
+      document.getElementById('repAppBy').textContent = t.repAppBy;
+      document.getElementById('repSignName1').textContent = t.repName;
+      document.getElementById('repSignMark1').textContent = t.repSign;
+      document.getElementById('repSignName2').textContent = t.repName;
+      document.getElementById('repSignMark2').textContent = t.repSign;
+
+      const ths = t.th;
+      document.getElementById('thNo').textContent = ths[0];
+      document.getElementById('thTicket').textContent = ths[1];
+      document.getElementById('thName').textContent = ths[2];
+      document.getElementById('thLocation').textContent = ths[3];
+      document.getElementById('thType').textContent = ths[4];
+      document.getElementById('thTech').textContent = ths[5];
+      document.getElementById('thStatus').textContent = ths[6];
+
+      document.getElementById('loginModalTitle').textContent = t.loginTitle;
+      document.getElementById('lblLoginEmail').textContent = t.loginEmail;
+      document.getElementById('lblLoginPass').textContent = t.loginPass;
+      document.getElementById('btnLoginSubmit').textContent = t.loginBtn;
+
+      const select = document.getElementById('complaintType');
+      const prevVal = select.value;
+      select.innerHTML = `<option value="">${t.selectPlaceholder}</option>` +
+        t.types.map((label, idx) => `<option value="${idx}">${label}</option>`).join('');
+      select.value = prevVal;
+    }
+
+    function formatReply(item) {
+      const t = I18N[currentLang];
+      const baseMsg = t.statuses[item.status] || "";
+      let extra = "";
+      if (item.assignedTech) {
+        extra += ` (${t.assignedTechTag} <strong>${item.assignedTech}</strong>)`;
+      }
+      if (item.techNotes) {
+        extra += ` — <em>"${item.techNotes}"</em>`;
+      }
+      return item.status === 'Rejected' ? baseMsg + (item.rejectReason || '—') : baseMsg + extra;
+    }
+
+    function renderCustomerList() {
+      const t = I18N[currentLang];
+      const customerList = document.getElementById('customerList');
+      if (complaints.length === 0) {
+        customerList.innerHTML = `<div class="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-500 text-sm">${t.emptyList}</div>`;
+        return;
+      }
+
+      customerList.innerHTML = complaints.map(item => {
+        const badge = STATUS_BADGES[item.status] || STATUS_BADGES["Received"];
+        const typeText = t.types[item.typeIndex] || "";
+        const localizedStatusName = t.statusLabels[item.status] || item.status;
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+            <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
+              <div>
+                <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">${item.ticketId}</span>
+                <span class="text-xs text-slate-400 ml-2">${item.createdAtStr || ''}</span>
+                <h4 class="font-bold text-slate-800 mt-1">${typeText}</h4>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full border ${badge}">${localizedStatusName}</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">
+              <strong>${item.name}</strong> • Meter: <strong>${item.meter || t.notRecorded}</strong> • <strong>${item.location}</strong>
+            </p>
+            ${item.details ? `<p class="text-sm text-slate-600 bg-slate-50 p-2.5 rounded-lg mb-3">"${item.details}"</p>` : ''}
+            
+            ${item.imageBase64 ? `
+              <div class="mb-3">
+                <img src="${item.imageBase64}" onclick="openImageModal('${item.imageBase64}')" class="w-24 h-24 object-cover rounded-lg border border-slate-200 cursor-pointer hover:opacity-90 transition shadow-sm" alt="Complaint photo" />
+              </div>
+            ` : ''}
+
+            <div class="p-3 rounded-lg border ${badge} text-sm">
+              <span class="font-semibold">${t.replyLabel}</span> ${formatReply(item)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.renderAdminList = function() {
+      if (!isAdminLoggedIn) return;
+      const t = I18N[currentLang];
+      const filter = document.getElementById('filterStatus').value;
+      const filtered = filter === 'ALL' ? complaints : complaints.filter(c => c.status === filter);
+      const adminList = document.getElementById('adminList');
+
+      if (filtered.length === 0) {
+        adminList.innerHTML = `<div class="bg-white p-6 rounded-xl border border-slate-200 text-center text-slate-500 text-sm">${t.emptyList}</div>`;
+        return;
+      }
+
+      adminList.innerHTML = filtered.map(item => {
+        const typeText = t.types[item.typeIndex] || "";
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-3">
+            <div class="flex flex-wrap justify-between items-start gap-2">
+              <div>
+                <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">${item.ticketId}</span>
+                <span class="text-xs text-slate-500 ml-2">${item.createdAtStr || ''}</span>
+                <h4 class="font-bold text-base text-slate-800 mt-1">${typeText}</h4>
+              </div>
+              <button onclick="deleteComplaint('${item.docId}')" class="text-xs text-rose-600 hover:underline">${t.deleteBtn}</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-lg">
+              <div><strong>${item.name}</strong></div>
+              <div><strong>${item.phone}</strong></div>
+              <div>Meter: <strong>${item.meter || t.notRecorded}</strong> (${item.location})</div>
+            </div>
+            ${item.details ? `<p class="text-sm text-slate-700">${item.details}</p>` : ''}
+            
+            ${item.imageBase64 ? `
+              <div>
+                <img src="${item.imageBase64}" onclick="openImageModal('${item.imageBase64}')" class="w-28 h-28 object-cover rounded-lg border border-slate-200 cursor-pointer" alt="Complaint photo" />
+              </div>
+            ` : ''}
+
+            <div class="bg-purple-50 border border-purple-200 p-3.5 rounded-xl space-y-2.5">
+              <p class="text-xs font-bold text-purple-900">🔧 ${t.assignBoxTitle}</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <input type="text" id="techInput_${item.docId}" value="${item.assignedTech || ''}" placeholder="${t.techNamePlaceholder}"
+                  class="w-full rounded-lg border border-purple-300 px-3 py-1.5 text-xs bg-white focus:border-purple-600 focus:outline-none" />
+                <input type="text" id="dirInput_${item.docId}" value="${item.adminDirective || ''}" placeholder="${t.adminDirPlaceholder}"
+                  class="w-full rounded-lg border border-purple-300 px-3 py-1.5 text-xs bg-white focus:border-purple-600 focus:outline-none" />
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <button type="button" onclick="assignTechnician('${item.docId}')"
+                  class="bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg shadow transition cursor-pointer">
+                  ${t.btnAssignSave}
+                </button>
+                ${item.techNotes ? `<span class="text-xs text-emerald-700 font-medium">✅ ${t.techNoteLbl} "${item.techNotes}"</span>` : ''}
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="text-sm">
+                <span class="text-slate-500">${t.replyLabel}</span>
+                <span class="font-medium text-slate-800">${formatReply(item)}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="text-xs font-medium text-slate-600">${t.changeStatus}</label>
+                <select onchange="updateStatus('${item.docId}', this.value)"
+                  class="rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-semibold bg-white focus:border-blue-600 focus:outline-none">
+                  <option value="Received" ${item.status === 'Received' ? 'selected' : ''}>${t.statusLabels["Received"]}</option>
+                  <option value="Under Review" ${item.status === 'Under Review' ? 'selected' : ''}>${t.statusLabels["Under Review"]}</option>
+                  <option value="Assigned" ${item.status === 'Assigned' ? 'selected' : ''}>${t.statusLabels["Assigned"]}</option>
+                  <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>${t.statusLabels["In Progress"]}</option>
+                  <option value="Resolved" ${item.status === 'Resolved' ? 'selected' : ''}>${t.statusLabels["Resolved"]}</option>
+                  <option value="Rejected" ${item.status === 'Rejected' ? 'selected' : ''}>${t.statusLabels["Rejected"]}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    applyTranslations();
+    applyRoleVisibility();
+  </script>
+</body>
+</html>
